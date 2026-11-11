@@ -49,7 +49,9 @@ public class OnThisDayService {
             thumbnail = randomJSON.getJSONArray("pages").getJSONObject(0).getJSONObject("thumbnail").getString("source");
         }
 
-        return new WikiEvent(title, desc, thumbnail);
+        int year = randomJSON.getInt("year");
+
+        return new WikiEvent(title, desc, thumbnail, year);
     }
 
     private static String getTranslateURL(String text) {
@@ -76,7 +78,7 @@ public class OnThisDayService {
 
             String translatedDesc = responseJSON.getJSONObject("responseData").get("translatedText").toString();
 
-            return new WikiEvent(translatedTitle, translatedDesc, englishEvent.getThumbnail());
+            return new WikiEvent(translatedTitle, translatedDesc, englishEvent.getThumbnail(), englishEvent.getYear());
 
         } catch (URISyntaxException use) {
             System.err.println(use.getMessage());
