@@ -1,6 +1,5 @@
 package org.example.onthisdayapp;
 
-import javafx.event.Event;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
