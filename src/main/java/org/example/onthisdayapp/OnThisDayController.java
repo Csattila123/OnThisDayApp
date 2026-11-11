@@ -55,7 +55,10 @@ public class OnThisDayController {
 
     @FXML
     protected void getTranslatedWikiEvent() {
-        WikiEvent event = OnThisDayService.getTranslatedWikiEvent();
+        String selectedMonth = monthComboBox.getValue();
+        String selectedDay = dayComboBox.getValue();
+
+        WikiEvent event = OnThisDayService.getTranslatedWikiEvent(selectedMonth, selectedDay);
 
         title.setText(event.getTitle());
         title.setVisible(true);
@@ -69,7 +72,7 @@ public class OnThisDayController {
         year.setVisible(true);
         year.setManaged(true);
 
-        if (event.getThumbnail() != null && !event.getThumbnail().isEmpty()) {
+        if (event.getThumbnail() != null && event.getThumbnail() != "") {
             thumbnail.setImage(new Image(event.getThumbnail(), true));
             thumbnail.setVisible(true);
             thumbnail.setManaged(true);
