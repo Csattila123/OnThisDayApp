@@ -3,6 +3,8 @@ package org.example.onthisdayapp;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import java.time.Month;
 
 public class OnThisDayController {
@@ -14,7 +16,16 @@ public class OnThisDayController {
     private ComboBox<String> dayComboBox;
 
     @FXML
-    private Label resultLabel;
+    private Label title;
+
+    @FXML
+    private Label text;
+
+    @FXML
+    private Label year;
+
+    @FXML
+    private ImageView thumbnail;
 
     @FXML
     public void initialize() {
@@ -40,5 +51,32 @@ public class OnThisDayController {
             dayComboBox.getItems().add(String.format("%02d", i));
         }
         dayComboBox.setValue("01");
+    }
+
+    @FXML
+    protected void getTranslatedWikiEvent() {
+        WikiEvent event = OnThisDayService.getTranslatedWikiEvent();
+
+        title.setText(event.getTitle());
+        title.setVisible(true);
+        title.setManaged(true);
+
+        text.setText(event.getDesc());
+        text.setVisible(true);
+        text.setManaged(true);
+
+        year.setText(String.valueOf(event.getYear()));
+        year.setVisible(true);
+        year.setManaged(true);
+
+        if (event.getThumbnail() != null && !event.getThumbnail().isEmpty()) {
+            thumbnail.setImage(new Image(event.getThumbnail(), true));
+            thumbnail.setVisible(true);
+            thumbnail.setManaged(true);
+        } else {
+            thumbnail.setImage(null);
+            thumbnail.setVisible(false);
+            thumbnail.setManaged(false);
+        }
     }
 }
