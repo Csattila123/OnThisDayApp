@@ -5,6 +5,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.io.ByteArrayInputStream;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.Month;
 
 public class OnThisDayController {
@@ -72,10 +78,27 @@ public class OnThisDayController {
         year.setVisible(true);
         year.setManaged(true);
 
-        if (event.getThumbnail() != null && event.getThumbnail() != "") {
-            thumbnail.setImage(new Image(event.getThumbnail(), true));
-            thumbnail.setVisible(true);
-            thumbnail.setManaged(true);
+
+        if (event.getThumbnail() != null && !event.getThumbnail().isEmpty()) {
+            try {
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create(event.getThumbnail()))
+                        .header("User-Agent", "OnThisDayStudentApp/1.0")
+                        .build();
+
+                HttpResponse<byte[]> response = client.send(request, HttpResponse.BodyHandlers.ofByteArray());
+                Image img = new Image(new ByteArrayInputStream(response.body()));
+
+                thumbnail.setImage(img);
+                thumbnail.setVisible(true);
+                thumbnail.setManaged(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+                thumbnail.setImage(null);
+                thumbnail.setVisible(false);
+                thumbnail.setManaged(false);
+            }
         } else {
             thumbnail.setImage(null);
             thumbnail.setVisible(false);
