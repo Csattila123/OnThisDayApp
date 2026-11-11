@@ -10,14 +10,14 @@
     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
   </padding>
 
-  <Label text="A rendszer egy random történelmi érdekességet ad vissza ami történt az a nap." />
-   <Label fx:id="title" text="normalized title" />
-   <Label fx:id="text" text="text" wrapText="true" />
+  <Label textAlignment="CENTER" text="A rendszer egy random történelmi érdekességet ad vissza ami történt az a nap.&#10;A kezdéshez írj be egy dátumot!" />
+   <Label fx:id="title" text="normalized title" visible="false" managed="false" />
+   <Label fx:id="text" text="text" wrapText="true" visible="false" managed="false" />
    <ImageView fx:id="thumbnail" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" visible="false" managed="false" />
     <HBox alignment="CENTER" spacing="10.0">
-        <Label fx:id="year" text="year" />
+        <Label fx:id="year" text="year" visible="false" managed="false" />
         <ComboBox fx:id="monthComboBox" promptText="Hónap" />
         <ComboBox fx:id="dayComboBox" promptText="Nap" />
     </HBox>
-  <Button onAction="#pickDate" text="Lekérdezés" />
+  <Button onAction="#getTranslatedWikiEvent" text="Lekérdezés" />
 </VBox>
