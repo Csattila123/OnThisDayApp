@@ -1,14 +1,44 @@
 package org.example.onthisdayapp;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import java.time.Month;
 
 public class OnThisDayController {
-    @FXML
-    private Label welcomeText;
 
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+    private ComboBox<String> monthComboBox;
+
+    @FXML
+    private ComboBox<String> dayComboBox;
+
+    @FXML
+    private Label resultLabel;
+
+    @FXML
+    public void initialize() {
+        for (int i = 1; i <= 12; i++) {
+            monthComboBox.getItems().add(String.format("%02d", i));
+        }
+
+        monthComboBox.setOnAction(event -> updateDays());
+
+        monthComboBox.setValue("01");
+        updateDays();
+    }
+
+    private void updateDays() {
+        String selectedMonth = monthComboBox.getValue();
+        if (selectedMonth == null) return;
+
+        int month = Integer.parseInt(selectedMonth);
+        int maxDays = Month.of(month).maxLength();
+
+        dayComboBox.getItems().clear();
+        for (int i = 1; i <= maxDays; i++) {
+            dayComboBox.getItems().add(String.format("%02d", i));
+        }
+        dayComboBox.setValue("01");
     }
 }
