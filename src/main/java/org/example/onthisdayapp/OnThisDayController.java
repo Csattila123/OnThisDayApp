@@ -3,7 +3,7 @@ package org.example.onthisdayapp;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class HelloController {
+public class OnThisDayController {
     @FXML
     private Label welcomeText;
 
