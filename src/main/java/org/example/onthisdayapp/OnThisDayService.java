@@ -14,11 +14,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
 public class OnThisDayService {
-    private static final String eventURL = "https://en.wikipedia.org/api/rest_v1/feed/onthisday/events/01/16";
+    private static final String eventURL = "https://en.wikipedia.org/api/rest_v1/feed/onthisday/events/";
+    private static String monthURL;
+    private static String dayURL;
 
     private static JSONArray getAllEvents() {
         try {
-            HttpRequest request = HttpRequest.newBuilder().uri(new URI(eventURL)).header("User-Agent", "OnThisDayStudentApp/1.0").GET().build();
+            HttpRequest request = HttpRequest.newBuilder().uri(new URI(eventURL + monthURL + "/" + dayURL)).header("User-Agent", "OnThisDayStudentApp/1.0").GET().build();
             HttpClient client = HttpClient.newHttpClient();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             JSONObject responseJSON = new JSONObject(response.body());
@@ -60,7 +62,10 @@ public class OnThisDayService {
         return "https://api.mymemory.translated.net/get?q=" + URLEncoder.encode(text, StandardCharsets.UTF_8) + "&langpair=en%7Chu";
     }
 
-    public static WikiEvent getTranslatedWikiEvent() {
+    public static WikiEvent getTranslatedWikiEvent(String month, String day) {
+        monthURL = month;
+        dayURL = day;
+
         WikiEvent englishEvent = getRandomEvent();
 
         try {
