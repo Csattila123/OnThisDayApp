@@ -42,7 +42,12 @@ public class OnThisDayService {
 
         String desc = randomJSON.getString("text");
         String title = randomJSON.getJSONArray("pages").getJSONObject(0).getJSONObject("titles").getString("normalized");
-        String thumbnail = randomJSON.getJSONArray("pages").getJSONObject(0).getJSONObject("thumbnail").getString("source");
+
+        String thumbnail = "";
+
+        if (randomJSON.getJSONArray("pages").getJSONObject(0).has("thumbnail")) {
+            thumbnail = randomJSON.getJSONArray("pages").getJSONObject(0).getJSONObject("thumbnail").getString("source");
+        }
 
         return new WikiEvent(title, desc, thumbnail);
     }
@@ -64,7 +69,7 @@ public class OnThisDayService {
 
             String translatedTitle = responseJSON.getJSONObject("responseData").get("translatedText").toString();
 
-            request = HttpRequest.newBuilder().uri(new URI(getTranslateURL(englishEvent.getTitle()))).GET().build();
+            request = HttpRequest.newBuilder().uri(new URI(getTranslateURL(englishEvent.getDesc()))).GET().build();
             client = HttpClient.newHttpClient();
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
             responseJSON = new JSONObject(response.body());
